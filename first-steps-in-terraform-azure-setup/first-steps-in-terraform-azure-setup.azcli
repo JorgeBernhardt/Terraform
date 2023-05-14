@@ -1,0 +1,15 @@
+Terraform -version
+Terraform -help
+
+az ad sp create-for-rbac \
+--name "SPForTerraformCLI" \
+--role "Contributor" \
+--scopes="/subscriptions/"
+
+provider "azurerm" {
+    version = "~>1.32.0"
+    subscription\_id = "" #<----------"SubscriptionId"
+    client\_id = "" #<----------------"appId"
+    client\_secret = "" #<------------"password"
+    tenant\_id = "" #<----------------"tenant"
+}

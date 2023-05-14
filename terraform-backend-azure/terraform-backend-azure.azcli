@@ -1,0 +1,10 @@
+storageAccountName = az storage account show \
+--name $storageAccountName \
+--query name \
+-o tsv
+
+containerName="terraform"
+
+az storage container create \
+--name $containerName \
+--account-name $storageAccountName
