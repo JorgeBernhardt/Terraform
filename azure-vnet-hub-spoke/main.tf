@@ -1,3 +1,9 @@
+/*
+  Author: Jorge Bernhardt
+  Version: 0.0.1
+  Date: 13-05-2023
+*/
+
 // Create a resource group
 resource "azurerm_resource_group" "rg" {
   name     = var.hub_network.resourceGroupName
