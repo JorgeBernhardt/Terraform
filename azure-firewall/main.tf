@@ -8,12 +8,12 @@ locals {
   rg_name = var.resource_group.name
 }
 
-// Fetching the details of an existing Resource Group
+// Get the details of an existing resource group
 data "azurerm_resource_group" "resource_group" {
   name = local.rg_name
 }
 
-// Fetching the details of an existing Virtual Network
+// Get the details of an existing virtual network
 data "azurerm_virtual_network" "vnet" {
   name                = var.vnet.name
   resource_group_name = local.rg_name
