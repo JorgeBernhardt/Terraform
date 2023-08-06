@@ -2,7 +2,7 @@
 # Terraform
 The code behind my Terraform post
 
-https://www.jorgebernhardt.com/tag/terraform/
+https://www.jorgebernhardt.com/tags/terraform/
 
 Please follow me on [Twitter](https://twitter.com/JorgeBernhardt) and [LinkedIn](https://www.linkedin.com/in/jorgebernhardt/) and support my work. Thank you.
 
