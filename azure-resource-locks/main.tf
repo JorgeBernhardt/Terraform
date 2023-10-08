@@ -1,3 +1,8 @@
+/*
+  Author: Jorge Bernhardt
+  Version: 0.0.1
+  Date: 22-07-2023
+*/
 // Get the current Azure subscription details
 data "azurerm_subscription" "current" {
 }
