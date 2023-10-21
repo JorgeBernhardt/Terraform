@@ -72,7 +72,6 @@ resource "azurerm_private_endpoint" "pep" {
     is_manual_connection           = false
     private_connection_resource_id = each.value.resource_id_to_link
     subresource_names              = ["vault"]
-
   }
 
   # Link private endpoints to the respective DNS zones.
