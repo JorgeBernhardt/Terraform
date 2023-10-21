@@ -41,7 +41,6 @@ data "azurerm_private_dns_a_record" "records" {
   depends_on = [azurerm_private_endpoint.pep]
 }
 
-
 # Create private DNS zones based on the service domains.
 resource "azurerm_private_dns_zone" "pdnszone" {
   for_each            = var.private_endpoints
