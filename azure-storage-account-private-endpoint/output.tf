@@ -1,3 +1,4 @@
+# Output Block for Storage Account Private Endpoints
 output "private_endpoints_output" {
   description = "Attributes of created private endpoints and DNS records."
   value = {

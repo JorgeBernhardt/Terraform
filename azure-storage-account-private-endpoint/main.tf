@@ -3,6 +3,7 @@
   Version: 0.0.1
   Date: 08-10-2023
 */
+
 # Using locals to define a mapping of service domains for easy reference.
 locals {
   service_domains = {
