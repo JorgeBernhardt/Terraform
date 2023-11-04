@@ -11,6 +11,7 @@ resource "azurerm_resource_group" "rg" {
   tags     = var.tags
 }
 
+// Action group
 resource "azurerm_monitor_action_group" "ag" {
   for_each            = var.action_groups
   enabled             = each.value.enabled

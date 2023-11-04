@@ -1,4 +1,4 @@
-// Provider Configuration
+// Azure Provider Configuration
 provider "azurerm" {
   features {}
 }

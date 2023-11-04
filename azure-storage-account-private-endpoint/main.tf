@@ -4,7 +4,7 @@
   Date: 08-10-2023
 */
 
-# Using locals to define a mapping of service domains for easy reference.
+// Using locals to define a mapping of service domains for easy reference.
 locals {
   service_domains = {
     blob  = "privatelink.blob.core.windows.net",
@@ -14,20 +14,20 @@ locals {
   }
 }
 
-# Fetch details of the existing resource group where private endpoints will be created.
+// Fetch details of the existing resource group where private endpoints will be created.
 data "azurerm_resource_group" "existing" {
   for_each = var.private_endpoints
   name     = each.value.resource_group_name
 }
 
-# Fetch details of the existing virtual network where private endpoints will connect.
+// Fetch details of the existing virtual network where private endpoints will connect.
 data "azurerm_virtual_network" "existing" {
   for_each            = var.private_endpoints
   name                = each.value.virtual_network_name
   resource_group_name = each.value.resource_group_name
 }
 
-# Fetch details of the subnet where private endpoints will reside.
+// Fetch details of the subnet where private endpoints will reside.
 data "azurerm_subnet" "existing" {
   for_each             = var.private_endpoints
   name                 = each.value.subnet_name
@@ -35,7 +35,7 @@ data "azurerm_subnet" "existing" {
   resource_group_name  = each.value.resource_group_name
 }
 
-# Create private DNS zones based on the service domains.
+// Create private DNS zones based on the service domains.
 resource "azurerm_private_dns_zone" "pdnszone" {
   for_each            = var.private_endpoints
   name                = local.service_domains[each.value.private_service_subresource_name]
@@ -43,7 +43,7 @@ resource "azurerm_private_dns_zone" "pdnszone" {
   tags                = each.value.tags
 }
 
-# Establish the link between private DNS zones and the virtual network.
+// Establish the link between private DNS zones and the virtual network.
 resource "azurerm_private_dns_zone_virtual_network_link" "pdnszlink" {
   for_each              = var.private_endpoints
   name                  = "link-${each.key}"
@@ -53,7 +53,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "pdnszlink" {
   tags                  = each.value.tags
 }
 
-# Create private endpoints in the specified subnets and connect to the target resources.
+// Create private endpoints in the specified subnets and connect to the target resources.
 resource "azurerm_private_endpoint" "pep" {
   for_each            = var.private_endpoints
   name                = "pep-${each.key}"
@@ -68,7 +68,7 @@ resource "azurerm_private_endpoint" "pep" {
     subresource_names              = [each.value.private_service_subresource_name]
   }
 
-  # Link private endpoints to the respective DNS zones.
+  // Link private endpoints to the respective DNS zones.
   private_dns_zone_group {
     name                 = "pdnszgroup-${each.key}"
     private_dns_zone_ids = [azurerm_private_dns_zone.pdnszone[each.key].id]
@@ -77,7 +77,7 @@ resource "azurerm_private_endpoint" "pep" {
   tags = each.value.tags
 }
 
-# Create A records in private DNS zones for the private endpoints.
+// Create A records in private DNS zones for the private endpoints.
 resource "azurerm_private_dns_a_record" "pdnsrecord" {
   for_each            = var.private_endpoints
   name                = "pep-${each.key}"

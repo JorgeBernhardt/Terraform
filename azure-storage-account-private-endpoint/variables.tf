@@ -1,3 +1,4 @@
+// Define a variable for configuring private endpoints
 variable "private_endpoints" {
   description = "Details for the Private Endpoints creation"
   type = map(object({
