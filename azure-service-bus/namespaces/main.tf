@@ -3,6 +3,7 @@
   Version: 0.0.1
   Date: 06-12-2023
 */
+
 locals {
   // Create a map to determine if each namespace's SKU is 'Premium'
   is_premium_sku = { for k, v in var.namespaces : k => v.sku == "Premium" }
@@ -23,14 +24,14 @@ resource "azurerm_servicebus_namespace" "namespace" {
   tags                          = var.tags
 
   // Attributes and configurations specific to 'Premium' SKU
-  capacity                      = local.is_premium_sku[each.key] ? each.value.capacity : null
-  zone_redundant                = local.is_premium_sku[each.key] ? each.value.zone_redundant : null
+  capacity       = local.is_premium_sku[each.key] ? each.value.capacity : null
+  zone_redundant = local.is_premium_sku[each.key] ? each.value.zone_redundant : null
 
   // Dynamic block for identity - conditionally created for 'Premium' SKU
   dynamic "identity" {
     for_each = local.is_premium_sku[each.key] && can(each.value.identity) && try(length(each.value.identity) > 0, false) ? [each.value.identity] : []
     content {
-      type = identity.value.type
+      type         = identity.value.type
       identity_ids = identity.value.type == "UserAssigned" ? identity.value.identity_ids : null
     }
   }
@@ -49,8 +50,8 @@ resource "azurerm_servicebus_namespace" "namespace" {
   dynamic "network_rule_set" {
     for_each = local.is_premium_sku[each.key] && can(each.value.network_rule_set) && try(length(each.value.network_rule_set) > 0, false) ? [each.value.network_rule_set] : []
     content {
-      default_action = network_rule_set.value.default_action
-      ip_rules       = network_rule_set.value.ip_rules
+      default_action           = network_rule_set.value.default_action
+      ip_rules                 = network_rule_set.value.ip_rules
       trusted_services_allowed = lookup(network_rule_set.value, "trusted_services_allowed", true)
     }
   }
