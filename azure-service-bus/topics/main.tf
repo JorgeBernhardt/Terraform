@@ -4,9 +4,9 @@
   Date: 17-02-2024
 */
 
-# Resource definition for Azure Service Bus Topics with updated parameters
+// Resource definition for Azure Service Bus Topics with updated parameters
 resource "azurerm_servicebus_topic" "topic" {
-  # Loop through each topic in the servicebus_topics variable
+  // Loop through each topic in the servicebus_topics variable
   for_each = { for sbt in var.servicebus_topics : sbt.name => sbt }
 
   name                                    = each.value.name

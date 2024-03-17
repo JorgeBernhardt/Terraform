@@ -1,4 +1,4 @@
-# Output definition for Service Bus Topic details
+// Output definition for Service Bus Topic details
 output "servicebus_topic_details" {
   description = "A map of Service Bus topic details, including each topic's ID and name."
   value = {

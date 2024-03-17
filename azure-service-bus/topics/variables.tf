@@ -1,4 +1,4 @@
-# Variable definition for Service Bus Topics
+// Variable definition for Service Bus Topics
 variable "servicebus_topics" {
   description = "List of Service Bus Topics to be created"
   type = list(object({
