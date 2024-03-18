@@ -4,12 +4,12 @@
   Date: 13-01-2024
 */
 
-# Resource definition for Azure Service Bus Queues
+// Resource definition for Azure Service Bus Queues
 resource "azurerm_servicebus_queue" "queue" {
-  # Loop through each queue in the servicebus_queues variable
+  // Loop through each queue in the servicebus_queues variable
   for_each = { for sbq in var.servicebus_queues : sbq.name => sbq }
 
-  # Assign values from each queue object to the respective Service Bus Queue properties
+  // Assign values from each queue object to the respective Service Bus Queue properties
   name                                    = each.value.name
   namespace_id                            = each.value.namespace_id
   enable_partitioning                     = each.value.enable_partitioning

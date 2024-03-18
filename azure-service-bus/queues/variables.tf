@@ -1,4 +1,4 @@
-# Variable definition for Service Bus Queues
+// Variable definition for Service Bus Queues
 variable "servicebus_queues" {
   description = "List of Service Bus Queues to be created"
   type = list(object({
