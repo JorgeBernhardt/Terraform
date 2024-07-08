@@ -11,6 +11,6 @@ Thanks and share!
 ---------------------------------
 ## Documentation
 
-- Official Documentation: [https://www.terraform.io/docs/](https://www.terraform.io/docs/)
-- Azurerm Provider Documentation: [https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
+- [Official Documentation](https://www.terraform.io/docs/)
+- [Azurerm Provider Documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
 
