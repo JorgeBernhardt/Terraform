@@ -1,7 +1,7 @@
 /*
   Author: Jorge Bernhardt
   Version: 0.0.1
-  Date: 01-07-2024
+  Date: 02-07-2024
 */
 
 // Define the resource group
