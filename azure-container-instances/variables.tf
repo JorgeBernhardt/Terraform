@@ -54,6 +54,20 @@ variable "aci_instances" {
   }
 }
 
+// Docker Credentials for Rate Limiting (Optional)
+variable "docker_username" {
+  description = "Docker Hub username (optional)"
+  type        = string
+  default     = null
+}
+
+variable "docker_password" {
+  description = "Docker Hub password (optional)"
+  type        = string
+  default     = null
+  sensitive   = true
+}
+
 // Define common tags for all resources
 variable "tags" {
   description = "Common tags for all resources"

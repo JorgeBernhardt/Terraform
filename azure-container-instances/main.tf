@@ -1,7 +1,7 @@
 /*
   Author: Jorge Bernhardt
-  Version: 0.0.1
-  Date: 20-06-2024
+  Version: 1.1.0
+  Date: 21-09-2024
 */
 
 // Define the Azure Resource Group
@@ -18,7 +18,6 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = [each.value.address_space]
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  depends_on          = [azurerm_resource_group.rg]
   tags                = var.tags
 }
 
@@ -43,8 +42,7 @@ resource "azurerm_subnet" "subnet" {
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = each.value.vnet_name
   address_prefixes     = [each.value.address_prefix]
-  
-  // Delegation block for container instances
+
   delegation {
     name = "container-instance-delegation"
     service_delegation {
@@ -52,7 +50,6 @@ resource "azurerm_subnet" "subnet" {
       actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
     }
   }
-
   depends_on = [azurerm_virtual_network.vnet]
 }
 
@@ -64,31 +61,35 @@ resource "azurerm_container_group" "aci" {
   resource_group_name = azurerm_resource_group.rg.name
   os_type             = "Linux"
   restart_policy      = each.value.restart_policy
-  
-  // Configure the IP address type based on the public setting
+
   ip_address_type = each.value.is_public ? "Public" : "Private"
   subnet_ids      = each.value.is_public ? null : [azurerm_subnet.subnet["${each.value.vnet_name}-${each.value.subnet_name}"].id]
   dns_name_label  = each.value.is_public ? each.value.dns_label : null
 
-  // Dynamic block to configure multiple containers
   dynamic "container" {
-      for_each = each.value.containers
-      content {
-        name   = container.value.name
-        image  = container.value.image
-        cpu    = container.value.cpu
-        memory = container.value.memory
-        
-        // Dynamic block to configure ports for the container
-        dynamic "ports" {
-          for_each = container.value.ports
-          content {
-            port     = ports.value.port
-            protocol = ports.value.protocol
-          }
+    for_each = each.value.containers
+    content {
+      name   = container.value.name
+      image  = container.value.image
+      cpu    = container.value.cpu
+      memory = container.value.memory
+
+      dynamic "ports" {
+        for_each = container.value.ports
+        content {
+          port     = ports.value.port
+          protocol = ports.value.protocol
         }
       }
     }
+  }
+
+  # Image registry credential (optional for rate-limited Docker Hub access)
+  image_registry_credential {
+    server   = "index.docker.io"
+    username = var.docker_username
+    password = var.docker_password
+  }
 
   tags       = var.tags
   depends_on = [azurerm_subnet.subnet]
