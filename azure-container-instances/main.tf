@@ -84,7 +84,7 @@ resource "azurerm_container_group" "aci" {
     }
   }
 
-  # Image registry credential (optional for rate-limited Docker Hub access)
+//  Image registry credential (optional for rate-limited Docker Hub access)
   image_registry_credential {
     server   = "index.docker.io"
     username = var.docker_username
